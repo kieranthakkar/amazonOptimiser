@@ -129,8 +129,5 @@ compare = pd.DataFrame({"productName": df.title.iloc[-40000:],
 print(compare)
 
 
-## Evaluation
-mse = mean_squared_error(y_test, y_pred_LR)
-print(f'Mean Squared Error LinearRegression: {mse}')
-mse = mean_squared_error(y_test, y_pred_EN)
-print(f'Mean Squared Error ElasticNet: {mse}')
+if __name__ == "__main__":
+    main()
