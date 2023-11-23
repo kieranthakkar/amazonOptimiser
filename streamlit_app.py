@@ -123,21 +123,13 @@ def main():
         # Transpose
         input_array = input_array.reshape(1, -1)
 
-### ElasticNet()
-EN = ElasticNet()
-EN.fit(X_train, y_train)
-y_pred_EN = EN.predict(X_test)
+        # Make prediction
+        predicted_price = LR.predict(input_array)
+        predicted_price = np.expm1(predicted_price)[0]
 
-### Comparison
-compare = pd.DataFrame({"productName": df.title.iloc[-40000:],
-                        "rating": df.stars.iloc[-40000:],
-                        "Reviews": df.reviews.iloc[-40000:],
-                        "actualPrice": y_test,
-                        "y_pred_LR": y_pred_LR,
-                        "y_pred_EN": y_pred_EN
-                        }).reset_index()
-
-print(compare)
+        # Display the prediction
+        st.subheader("Predicted Price:")
+        st.write(f"£{predicted_price:.2f}")
 
 
 if __name__ == "__main__":
