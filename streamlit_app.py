@@ -80,7 +80,8 @@ def get_word_vectors(product_name):
     except KeyError:
         return np.nan
 
-data['average_vector'] = data['title'].apply(get_word_vectors)
+def main():
+    st.title("Amazon Price Predictor")
 
     LR = load_model()
 
