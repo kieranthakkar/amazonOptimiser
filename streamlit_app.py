@@ -115,8 +115,7 @@ def main():
         'hashed_category': category_hash
         }
 
-X_test = X[-40000:].drop(axis=1,columns="price").values
-y_test = y[-40000:]
+        user_input.update(dict(zip([f'vector_dim_{i + 1}' for i in range(model_w2v.vector_size)], title_vector_expanded)))
 
 
 ## Modelling
