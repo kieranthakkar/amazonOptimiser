@@ -56,7 +56,8 @@ unique_categories = ['Hi-Fi Speakers', 'CD, Disc & Tape Players', 'Wearable Tech
  ]
 unique_categories.sort()
 
-df = df.iloc[index_array].reset_index(drop=True)
+model_path = "Models/word2vec_model.model"
+model_w2v = Word2Vec.load(model_path)
 
 ### isBestSeller: bool -> int
 dict_map = {True: 1, False: 0}
@@ -75,12 +76,7 @@ hashed_df = pd.DataFrame(X_category, columns=[f"hash_{i}" for i in range(n_featu
 data = pd.concat([df, hashed_df], axis=1)
 data = data.drop(axis=1,columns="categoryName")
 
-
-### title: string -> int -- Word2Vec
-model_path = "word2vec_model.model"
-model_w2v = Word2Vec.load(model_path)
-
-# Define a function to get the word vectors for the first 5 words of a product name
+# Word2Vec function
 def get_word_vectors(product_name):
     try:
         five_words = word_tokenize(product_name.lower())[:5]
@@ -91,7 +87,7 @@ def get_word_vectors(product_name):
         else:
             return np.nan
     except KeyError:
-        return np.nan      # Handle the case where a word is not in the vocabulary
+        return np.nan
 
 data['average_vector'] = data['title'].apply(get_word_vectors)
 
