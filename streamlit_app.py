@@ -3,8 +3,6 @@ import pandas as pd, numpy as np, streamlit as st, pickle
 from sklearn.feature_extraction import FeatureHasher
 from gensim.models import Word2Vec
 from nltk.tokenize import word_tokenize
-from sklearn.linear_model import LinearRegression, ElasticNet
-from sklearn.metrics import mean_squared_error
 
 # Load the trained model
 @st.cache_data()
