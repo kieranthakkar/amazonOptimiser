@@ -120,12 +120,8 @@ def main():
         # Convert user_input to a numpy array
         input_array = np.concatenate([np.array([value]) if not isinstance(value, np.ndarray) else value for value in user_input.values()])
 
-## Modelling
-### LinearRegression()
-LR = LinearRegression()
-LR.fit(X_train, y_train_transformed)
-y_pred_LR = LR.predict(X_test)
-y_pred_LR = np.expm1(y_pred_LR)
+        # Transpose
+        input_array = input_array.reshape(1, -1)
 
 ### ElasticNet()
 EN = ElasticNet()
