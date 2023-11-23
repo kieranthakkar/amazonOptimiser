@@ -16,7 +16,7 @@ def load_model():
 
 # Load data and models
 df = pd.read_csv("amazon_data.csv")
-df = df.drop(columns=["asin", "imgUrl", "productURL"],axis=1)
+df = df.drop(columns=["asin", "imgUrl", "productURL"], axis=1)
 df = df[df["reviews"] > 0]
 
 ## Pre-Processing
