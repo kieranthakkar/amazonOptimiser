@@ -66,8 +66,6 @@ categories = [[category] for category in categories]
 hasher = FeatureHasher(n_features=n_features, input_type="string")
 X_category = hasher.transform(categories).toarray().astype("float16")
 hashed_df = pd.DataFrame(X_category, columns=[f"hash_{i}" for i in range(n_features)])
-
-# Concatenate dataframes
 data = pd.concat([df, hashed_df], axis=1)
 data = data.drop(axis=1, columns="categoryName")
 
