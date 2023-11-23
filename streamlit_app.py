@@ -99,38 +99,37 @@ def main():
         isBestSeller = 1 if isBestSeller else 0
         category_hash = hasher.transform([[category]]).toarray().astype("float16").flatten()
         category_hash = np.pad(category_hash, (0, 296 - len(category_hash)))  # Ensure it has 296 columns
+        
         title_vector = get_word_vectors(title)
+        title_vector_expanded = np.zeros(model_w2v.vector_size)
+        for i in range(model_w2v.vector_size):
+            if isinstance(title_vector, np.ndarray):
+                title_vector_expanded[i] = title_vector[i]
 
-X_train = X[0:-40000].drop(axis=1,columns="price").values
-y_train = y[0:-40000]
-y_train_transformed = np.log1p(y_train)
+        # Prepare input for prediction
+        user_input = {
+        'stars': rating,
+        'reviews': reviews,
+        'isBestSeller': isBestSeller,
+        "boughtInLastMonth": boughtInLastMonth,
+        'hashed_category': category_hash
+        }
 
-X_test = X[-40000:].drop(axis=1,columns="price").values
-y_test = y[-40000:]
+        user_input.update(dict(zip([f'vector_dim_{i + 1}' for i in range(model_w2v.vector_size)], title_vector_expanded)))
 
+        # Convert user_input to a numpy array
+        input_array = np.concatenate([np.array([value]) if not isinstance(value, np.ndarray) else value for value in user_input.values()])
 
-## Modelling
-### LinearRegression()
-LR = LinearRegression()
-LR.fit(X_train, y_train_transformed)
-y_pred_LR = LR.predict(X_test)
-y_pred_LR = np.expm1(y_pred_LR)
+        # Transpose
+        input_array = input_array.reshape(1, -1)
 
-### ElasticNet()
-EN = ElasticNet()
-EN.fit(X_train, y_train)
-y_pred_EN = EN.predict(X_test)
+        # Make prediction
+        predicted_price = LR.predict(input_array)
+        predicted_price = np.expm1(predicted_price)[0]
 
-### Comparison
-compare = pd.DataFrame({"productName": df.title.iloc[-40000:],
-                        "rating": df.stars.iloc[-40000:],
-                        "Reviews": df.reviews.iloc[-40000:],
-                        "actualPrice": y_test,
-                        "y_pred_LR": y_pred_LR,
-                        "y_pred_EN": y_pred_EN
-                        }).reset_index()
-
-print(compare)
+        # Display the prediction
+        st.subheader("Predicted Price:")
+        st.write(f"£{predicted_price:.2f}")
 
 
 if __name__ == "__main__":
