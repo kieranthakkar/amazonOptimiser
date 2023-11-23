@@ -95,7 +95,13 @@ data['average_vector'] = data['title'].apply(get_word_vectors)
 for i in range(model_w2v.vector_size):
     data[f'embedding_dim_{i + 1}'] = data['average_vector'].apply(lambda x: x[i] if isinstance(x, np.ndarray) else np.nan)
 
-numerical = data.drop(axis=1, columns=["title", "average_vector"])
+    # User input
+    reviews = st.number_input("Number of Reviews", min_value=0)
+    rating = st.slider("Rating", min_value=1.0, max_value=5.0, step=0.1, value=4.0)
+    isBestSeller = st.checkbox("Is Best Seller")
+    title = st.text_input("Product Title")
+    category = st.selectbox("Product Category", unique_categories)
+    boughtInLastMonth = st.number_input("boughtInLastMonth", min_value=0)
 
 ## Data Split and Transformation
 y = numerical.price.values
