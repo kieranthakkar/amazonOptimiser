@@ -1,4 +1,5 @@
-import pandas as pd, numpy as np, streamlit as st
+# Import all modules
+import pandas as pd, numpy as np, streamlit as st, pickle
 from sklearn.feature_extraction import FeatureHasher
 from gensim.models import Word2Vec
 from nltk.tokenize import word_tokenize
