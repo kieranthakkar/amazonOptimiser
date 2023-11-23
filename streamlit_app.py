@@ -106,9 +106,14 @@ def main():
             if isinstance(title_vector, np.ndarray):
                 title_vector_expanded[i] = title_vector[i]
 
-X_train = X[0:-40000].drop(axis=1,columns="price").values
-y_train = y[0:-40000]
-y_train_transformed = np.log1p(y_train)
+        # Prepare input for prediction
+        user_input = {
+        'stars': rating,
+        'reviews': reviews,
+        'isBestSeller': isBestSeller,
+        "boughtInLastMonth": boughtInLastMonth,
+        'hashed_category': category_hash
+        }
 
 X_test = X[-40000:].drop(axis=1,columns="price").values
 y_test = y[-40000:]
