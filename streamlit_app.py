@@ -117,6 +117,8 @@ def main():
 
         user_input.update(dict(zip([f'vector_dim_{i + 1}' for i in range(model_w2v.vector_size)], title_vector_expanded)))
 
+        # Convert user_input to a numpy array
+        input_array = np.concatenate([np.array([value]) if not isinstance(value, np.ndarray) else value for value in user_input.values()])
 
 ## Modelling
 ### LinearRegression()
