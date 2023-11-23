@@ -59,12 +59,7 @@ unique_categories.sort()
 model_path = "Models/word2vec_model.model"
 model_w2v = Word2Vec.load(model_path)
 
-### isBestSeller: bool -> int
-dict_map = {True: 1, False: 0}
-df['isBestSeller'] = df['isBestSeller'].map(dict_map)
-
-
-### categoryName: string -> float  -- FeatureHasher
+# FeatureHasher for categoryName
 n_features = len(df.categoryName.unique())
 categories = df.categoryName.astype(str)  
 categories = [[category] for category in categories]
@@ -74,7 +69,7 @@ hashed_df = pd.DataFrame(X_category, columns=[f"hash_{i}" for i in range(n_featu
 
 # Concatenate dataframes
 data = pd.concat([df, hashed_df], axis=1)
-data = data.drop(axis=1,columns="categoryName")
+data = data.drop(axis=1, columns="categoryName")
 
 # Word2Vec function
 def get_word_vectors(product_name):
@@ -91,9 +86,7 @@ def get_word_vectors(product_name):
 
 data['average_vector'] = data['title'].apply(get_word_vectors)
 
-# Expand the average vector into several columns
-for i in range(model_w2v.vector_size):
-    data[f'embedding_dim_{i + 1}'] = data['average_vector'].apply(lambda x: x[i] if isinstance(x, np.ndarray) else np.nan)
+    LR = load_model()
 
     # User input
     reviews = st.number_input("Number of Reviews", min_value=0)
