@@ -93,9 +93,13 @@ def main():
     category = st.selectbox("Product Category", unique_categories)
     boughtInLastMonth = st.number_input("boughtInLastMonth", min_value=0)
 
-## Data Split and Transformation
-y = numerical.price.values
-X = numerical
+    # Button to trigger prediction -- DOES IT WORK? OR IS IT AUTOMATIC?
+    if st.button("Predict Price"):
+        # Preprocess user input
+        isBestSeller = 1 if isBestSeller else 0
+        category_hash = hasher.transform([[category]]).toarray().astype("float16").flatten()
+        category_hash = np.pad(category_hash, (0, 296 - len(category_hash)))  # Ensure it has 296 columns
+        title_vector = get_word_vectors(title)
 
 X_train = X[0:-40000].drop(axis=1,columns="price").values
 y_train = y[0:-40000]
