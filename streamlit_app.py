@@ -6,7 +6,15 @@ from nltk.tokenize import word_tokenize
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.metrics import mean_squared_error
 
-# data import
+# Load the trained model
+@st.cache_data()
+def load_model():
+    pickle_in = open("Models/linear_regression.pkl", "rb")
+    model = pickle.load(pickle_in)
+    pickle_in.close()
+    return model
+
+# Load data and models
 df = pd.read_csv("amazon_data.csv")
 df = df.drop(columns=["asin", "imgUrl", "productURL"],axis=1)
 df = df[df["reviews"] > 0]
