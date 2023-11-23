@@ -99,7 +99,12 @@ def main():
         isBestSeller = 1 if isBestSeller else 0
         category_hash = hasher.transform([[category]]).toarray().astype("float16").flatten()
         category_hash = np.pad(category_hash, (0, 296 - len(category_hash)))  # Ensure it has 296 columns
+        
         title_vector = get_word_vectors(title)
+        title_vector_expanded = np.zeros(model_w2v.vector_size)
+        for i in range(model_w2v.vector_size):
+            if isinstance(title_vector, np.ndarray):
+                title_vector_expanded[i] = title_vector[i]
 
 X_train = X[0:-40000].drop(axis=1,columns="price").values
 y_train = y[0:-40000]
