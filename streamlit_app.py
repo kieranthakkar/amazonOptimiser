@@ -49,8 +49,7 @@ unique_categories = ['Hi-Fi Speakers', 'CD, Disc & Tape Players', 'Wearable Tech
  ]
 unique_categories.sort()
 
-model_path = "Models/word2vec_model.model"
-model_w2v = Word2Vec.load(model_path)
+model_w2v = Word2Vec.load("Models/word2vec_model.model")
 
 # FeatureHasher for categoryName
 n_features = len(unique_categories)
