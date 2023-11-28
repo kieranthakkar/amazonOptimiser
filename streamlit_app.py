@@ -12,11 +12,6 @@ def load_model_LR():
     pickle_in.close()
     return model
 
-# Load data and models
-df = pd.read_csv("amazon_data.csv")
-df = df.drop(columns=["asin", "imgUrl", "productURL"], axis=1)
-df = df[df["reviews"] > 0]
-
 # Categories for use in a drop-down list
 unique_categories = ['Hi-Fi Speakers', 'CD, Disc & Tape Players', 'Wearable Technology', 'Light Bulbs', 'Bathroom Lighting', 'Heating, Cooling & Air Quality', 'Coffee & Espresso Machines', 'Lab & Scientific Products',
  'Smart Speakers', 'Motorbike Clothing', 'Motorbike Accessories', 'Motorbike Batteries', 'Motorbike Boots & Luggage', 'Motorbike Chassis', 'Handmade Home & Kitchen Products', 'Hardware',
@@ -58,14 +53,11 @@ model_path = "Models/word2vec_model.model"
 model_w2v = Word2Vec.load(model_path)
 
 # FeatureHasher for categoryName
-n_features = len(df.categoryName.unique())
-categories = df.categoryName.astype(str)  
-categories = [[category] for category in categories]
+n_features = len(unique_categories)
+categories = [[category] for category in unique_categories]
 hasher = FeatureHasher(n_features=n_features, input_type="string")
 X_category = hasher.transform(categories).toarray().astype("float16")
 hashed_df = pd.DataFrame(X_category, columns=[f"hash_{i}" for i in range(n_features)])
-data = pd.concat([df, hashed_df], axis=1)
-data = data.drop(axis=1, columns="categoryName")
 
 # Word2Vec function
 def get_word_vectors(product_name):
