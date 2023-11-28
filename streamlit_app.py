@@ -49,7 +49,7 @@ unique_categories = ['Hi-Fi Speakers', 'CD, Disc & Tape Players', 'Wearable Tech
  ]
 unique_categories.sort()
 
-model_w2v = Word2Vec.load(r"word2vec_model.model")
+model_w2v = Word2Vec.load(r"https://github.com/kieranthakkar/amazonOptimiser/raw/main/word2vec_model.model")
 
 # FeatureHasher for categoryName
 n_features = len(unique_categories)
