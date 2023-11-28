@@ -6,7 +6,7 @@ from nltk.tokenize import word_tokenize
 
 # Load the trained model
 @st.cache_data()
-def load_model():
+def load_model_LR():
     pickle_in = open("Models/linear_regression.pkl", "rb")
     model = pickle.load(pickle_in)
     pickle_in.close()
@@ -83,7 +83,7 @@ def get_word_vectors(product_name):
 def main():
     st.title("Amazon Price Predictor")
 
-    LR = load_model()
+    LR = load_model_LR()
 
     # User input
     reviews = st.number_input("Number of Reviews", min_value=0)
@@ -124,13 +124,12 @@ def main():
         input_array = input_array.reshape(1, -1)
 
         # Make prediction
-        predicted_price = LR.predict(input_array)
-        predicted_price = np.expm1(predicted_price)[0]
+        predicted_price_LR = LR.predict(input_array)
+        predicted_price_LR = np.expm1(predicted_price_LR)[0]
 
         # Display the prediction
         st.subheader("Predicted Price:")
-        st.write(f"£{predicted_price:.2f}")
-
+        st.write(f"LinearRegression: £{predicted_price_LR:.2f}")
 
 if __name__ == "__main__":
     main()
