@@ -1,0 +1,4 @@
+Please find the Kaggle dataset attached below. This is data scraped from 2.2 million+ products on Amazon UK.
+There has been no similar public projects that use this data; therefore, this is a unique project.  
+
+https://www.kaggle.com/datasets/asaniczka/amazon-uk-products-dataset-2023/download?datasetVersionNumber=4
